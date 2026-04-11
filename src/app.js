@@ -4,6 +4,7 @@ import { connectDB } from "./config/db.js"
 import userRoutes from "./routes/user.routes.js"
 import todoRoutes from "./routes/todo.routes.js" 
 import notesRoute from "./routes/note.routes.js"
+import adminRoutes from "./routes/admin.routes.js"
 
 dotenv.config()
 
@@ -12,9 +13,10 @@ const app = express()
 app.use(express.json())
 
 
-app.use("/api/users", userRoutes)
+app.use("/api/user", userRoutes)
 app.use("/api/todos", todoRoutes) 
 app.use("/api/notes", notesRoute)
+app.use("/api/admin", adminRoutes)
 app.use("/uploads", express.static("uploads"))
 
 app.use((err, _req, res, _next) => {

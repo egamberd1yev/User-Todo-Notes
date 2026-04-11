@@ -85,7 +85,9 @@ export const login = async ({ email, password }) => {
 		{ expiresIn: "1d" },
 	)
 
-	return { user, token }
+	const { password: _, ...userWithoutPassword } = user.toObject()
+
+	return { user: userWithoutPassword, token }
 }
 
 export const getProfile = async (userId) => {
