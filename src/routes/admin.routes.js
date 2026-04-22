@@ -1,4 +1,3 @@
-// routes/admin.router.js
 import { Router } from "express"
 import * as adminController from "../controllers/admin.controller.js"
 import { protect } from "../middlewares/auth.middleware.js"
