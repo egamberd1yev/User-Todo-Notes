@@ -1,7 +1,7 @@
 import { Router } from "express"
 import {
-  getAllTodos,
-  getTodoById,
+  getTodos,
+  getTodo,
   createTodo,
   updateTodo,
   deleteTodo
@@ -11,9 +11,9 @@ import { createTodoSchema } from "../validators/todo.validator.js";
 
 const router = Router()
 
-router.get("/", getAllTodos)
-router.get("/todos/:id", getTodoById)
-router.post("/user/:userId", validate(createTodoSchema), createTodo)
+router.get("/", getTodos)
+router.get("/todos/:id", getTodo)
+router.post("/", createTodo)
 router.put("/update/:id", updateTodo)
 router.delete("/delete/:id", deleteTodo)
 
