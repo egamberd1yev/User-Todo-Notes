@@ -44,7 +44,7 @@ export const deleteUser = async (id) => {
 }
 
 export const register = async (data) => {
-  const { name, email, password } = data
+  const { name, email, password, role } = data
 
   const existingUser = await userRepo().findOne({
     where: { email: email.toLowerCase() }
@@ -59,6 +59,7 @@ export const register = async (data) => {
     name,
     email: email.toLowerCase(),
     password: hashedPassword,
+    role: role || 'user'
   })
   await userRepo().save(user)
 
