@@ -18,6 +18,16 @@ export const login = async (req, res, next) => {
   }
 }
 
+export const refresh = async (req, res, next) => {
+  try {
+    const { refreshToken } = req.body
+    const result = await userService.refreshAccessToken(refreshToken)
+    res.json(result)
+  } catch (error) {
+    next(error)
+  }
+}
+
 export const getUsers = async (req, res, next) => {
   try {
     const users = await userService.getUsers(req.query)

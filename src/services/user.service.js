@@ -62,15 +62,11 @@ export const register = async (data) => {
   })
   await userRepo().save(user)
 
-  const token = jwt.sign(
-    { id: user.id, role: user.role },
-    process.env.JWT_SECRET,
-    { expiresIn: "1d" }
-  )
+  const accesToken = generateAccessToken(user)
+  const refreshToken = generateRefreshToken(user)
 
   const { password: _, ...userWithoutPassword } = user
-
-  return { user: userWithoutPassword, token }
+  return { user: userWithoutPassword, accesToken, refreshToken }
 }
 
 export const login = async ({ email, password }) => {
@@ -84,15 +80,38 @@ export const login = async ({ email, password }) => {
   const isMatch = await bcrypt.compare(password, user.password)
   if (!isMatch) throw new Error("Invalid credentials")
 
-  const token = jwt.sign(
-    { id: user.id, role: user.role },
-    process.env.JWT_SECRET,
-    { expiresIn: "1d" }
-  )
+  const accesToken = generateAccessToken(user)
+  const refreshToken = generateRefreshToken(user)
+
+  await userRepo().update(user.id, { refreshToken })
 
   const { password: _, ...userWithoutPassword } = user
+  return { user: userWithoutPassword, accesToken, refreshToken }
+}
 
-  return { user: userWithoutPassword, token }
+export const refreshAccessToken = async (refreshToken) => {
+  if (!refreshToken) {
+    const error = new Error("Refresh token yo'q")
+    error.statusCode = 401
+    throw error
+  }
+
+  const user = await userRepo().findOne({ where: { refreshToken }})
+  if(!user) {
+    const error = new Error("Token noto'g'ri")
+    error.statusCode = 403
+    throw error
+  }
+
+  try {
+    const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET)
+    const newAccessToken = generateAccessToken(decoded)
+    return { accesToken: newAccessToken }
+  } catch (err) {
+    const error = new Error("Token eskirgan yoki noto'g'ri")
+    error.statusCode = 403
+    throw error
+  }
 }
 
 export const getProfile = async (userId) => {
@@ -101,4 +120,20 @@ export const getProfile = async (userId) => {
 
   const { password: _, ...userWithoutPassword } = user
   return userWithoutPassword
+}
+
+const generateAccessToken = (user) => {
+  return jwt.sign(
+    { id: user.id, role: user.role },
+    process.env.JWT_SECRET,
+    { expiresIn: "15m" }
+  )
+}
+
+const generateRefreshToken = (user) => {
+  return jwt.sign(
+    { id: user.id, role: user.role },
+    process.env.JWT_REFRESH_SECRET,
+    { expiresIn: "7d" }
+  )
 }

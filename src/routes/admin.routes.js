@@ -14,7 +14,7 @@ router.get("/notes", adminController.getAllNotes)
 router.delete("/notes/:id", adminController.deleteNote)
 
 router.get("/todos", adminController.getAllTodos)
-router.post("/todos", adminController.createTodo)
+router.post("/todos", adminController.createTodo) 
 router.put("/todos/:id", adminController.updateTodo)
 router.delete("/todos/:id", adminController.deleteTodo)
 

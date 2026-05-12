@@ -3,7 +3,7 @@ import { UserEntity } from '../models/user.entity.js';
 
 const userRepo = () => UserAppDataSource.getRepository(UserEntity);
 
-// ✅ Barcha userlar (filter + pagination)
+
 export const findUsers = async (filters, page, limit) => {
   const skip = (page - 1) * limit;
 
@@ -23,7 +23,7 @@ export const findUsers = async (filters, page, limit) => {
   });
 }
 
-// ✅ ID orqali topish
+
 export const findUserById = async (id) => {
   return userRepo().findOne({
     where: { id },
@@ -39,7 +39,7 @@ export const findUserById = async (id) => {
   });
 }
 
-// ✅ Email orqali topish
+
 export const findUserByEmail = async (email) => {
   return userRepo().findOne({
     where: { email },
@@ -53,20 +53,17 @@ export const findUserByEmail = async (email) => {
   });
 }
 
-// ✅ Username orqali topish (agar entity da bo'lsa)
 export const findUserByUserName = async (userName) => {
   return userRepo().findOne({
     where: { userName },
   });
 }
 
-// ✅ User yaratish
 export const createUser = async (data) => {
   const user = userRepo().create(data);
   return userRepo().save(user);
 }
 
-// ✅ ID orqali o'chirish
 export const deleteUserById = async (id) => {
   const user = await userRepo().findOne({ where: { id } });
 

@@ -6,7 +6,8 @@ import {
   uploadUserImage,
   getProfile,
   register,
-  login
+  login,
+  refresh
 } from "../controllers/user.controller.js"
 
 import { upload } from "../middlewares/upload.middleware.js"
@@ -18,6 +19,7 @@ const router = Router()
 
 router.post("/register", validate(registerSchema), register)
 router.post("/login", validate(loginSchema), login)
+router.post("/refresh", refresh)
 
 router.get("/me", protect, getProfile)
 router.post("/upload", protect, upload.single("image"), uploadUserImage)

@@ -36,6 +36,10 @@ export const UserEntity = new EntitySchema({
       enum: ['user', 'admin'],
       default: 'user',
     },
+    refreshToken: {
+      type: String,
+      nullable: true
+    },
     createdAt: {
       type: Date,
       createDate: true,
