@@ -1,12 +1,13 @@
 import { Router } from "express"
 import {
-getUsers,
-getUser,
-deleteUser,
-uploadUserImage,
-getProfile,
-register,
-login
+  getUsers,
+  getUser,
+  deleteUser,
+  uploadUserImage,
+  getProfile,
+  register,
+  login,
+  refresh
 } from "../controllers/user.controller.js"
 
 import { upload } from "../middlewares/upload.middleware.js"
@@ -18,11 +19,14 @@ const router = Router()
 
 router.post("/register", validate(registerSchema), register)
 router.post("/login", validate(loginSchema), login)
-router.get("/me", protect, getProfile)
+router.post("/refresh", refresh)
 
-router.get("/", getUsers)
-router.post("/upload", upload.single("image"), uploadUserImage)
-router.get("/:id", getUser)
-router.delete("/:id", deleteUser)
+router.get("/me", protect, getProfile)
+router.post("/upload", protect, upload.single("image"), uploadUserImage)
+
+
+router.get("/", protect, getUsers)
+router.get("/:id", protect, getUser)
+router.delete("/:id", protect, deleteUser)
 
 export default router
