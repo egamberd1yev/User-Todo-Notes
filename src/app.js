@@ -42,7 +42,6 @@ import todoRoutes from "./routes/todo.routes.js";
 import userRotes from "./routes/user.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 import { AppDataSource } from "./config/data-source.js";
-import { UserAppDataSource } from "./config/user-data-source.js";
 
 dotenv.config();
 
@@ -60,19 +59,6 @@ app.use((err, req, res, next) => {
 });
 
 AppDataSource.initialize()
-  .then(() => {
-    console.log("Postgres TypeORM orqali ulandi");
-    app.listen(PORT, () => {
-      console.log(`Server ${PORT} portda ishlamoqda`);
-    });
-  })
-  .catch((err) => {
-    console.error("DB ulanishda xato ❌", err);
-    process.exit(1); 
-  });
-
-
-  UserAppDataSource.initialize()
   .then(() => {
     console.log("Postgres TypeORM orqali ulandi");
     app.listen(PORT, () => {

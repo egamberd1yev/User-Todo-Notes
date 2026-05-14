@@ -2,7 +2,8 @@ import * as todoService from "../services/todo.service.js";
 
 export const getTodos = async (req, res, next) => {
 	try {
-		const todos = await todoService.getTodos();
+		const userId = req.user.id
+		const todos = await todoService.getTodos(userId);
 		res.json(todos);
 	} catch (error) {
 		next(error);
@@ -20,7 +21,8 @@ export const getTodo = async (req, res, next) => {
 
 export const createTodo = async (req, res, next) => {
 	try {
-		const todo = await todoService.createTodo(req.body);
+		const userId = req.user.id
+		const todo = await todoService.createTodo(userId, req.body);
 		res.status(201).json(todo);
 	} catch (error) {
 		next(error);
@@ -36,7 +38,7 @@ export const updateTodo = async (req, res, next) => {
 	}
 };
 
-export const deleteTodo = async (req, res, next) => {
+export const deleteTodo = async (req, res, next) =>  {
 	try {
 		const todo = await todoService.deleteTodo(Number(req.params.id));
 		res.json({

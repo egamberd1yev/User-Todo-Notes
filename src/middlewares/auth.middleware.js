@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken"
-import { UserAppDataSource } from '../config/user-data-source.js';
+import { AppDataSource } from '../config/data-source.js';
 import { UserEntity } from '../models/user.entity.js';
 
 export const protect = async (req, res, next) => {
@@ -14,7 +14,7 @@ export const protect = async (req, res, next) => {
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
-    const userRepo = UserAppDataSource.getRepository(UserEntity);
+    const userRepo = AppDataSource.getRepository(UserEntity);
     const user = await userRepo.findOne({
       where: { id: decoded.id },
       select: {

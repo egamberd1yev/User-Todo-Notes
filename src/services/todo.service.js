@@ -1,7 +1,13 @@
 import * as todoRepository from "../repositories/todo.repositories.js";
+import { AppDataSource } from "../config/data-source.js";
+import { TodoEntity } from "../models/todo.entity.js";
 
-export const getTodos = async () => {
-	return todoRepository.findAllTodos();
+const todoRepo = () => AppDataSource.getRepository(TodoEntity);
+
+export const getTodos = async (userId) => {
+	return await todoRepo().find({
+		where: { user: {id: userId} }
+	})
 };
 
 export const getTodo = async (id) => {
@@ -14,14 +20,21 @@ export const getTodo = async (id) => {
 	return todo;
 };
 
-export const createTodo = async (data) => {
+export const createTodo = async (userId, data) => {
 	const { title, desc, is_completed } = data;
+	const todo = todoRepo().create({
+		title,
+		desc,
+		is_completed: is_completed ?? 0,
+		user: { id: userId },
+	})
+
 	if (!title) {
 		const error = new Error("Title is required");
 		error.statusCode = 400;
 		throw error;
 	}
-	return todoRepository.createTodo({ title, desc, is_completed });
+	return await todoRepo().save(todo)
 };
 
 export const updateTodo = async (id, data) => {

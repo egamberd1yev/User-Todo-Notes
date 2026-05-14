@@ -7,7 +7,7 @@ export const TodoEntity = new EntitySchema({
     id: {
       type: "int",
       primary: true,
-      generated: true, // avtomatik o'suvchi PK
+      generated: true,
     },
     title: {
       type: "varchar",
@@ -24,19 +24,6 @@ export const TodoEntity = new EntitySchema({
       type: "int",
       nullable: true,
     },
-    // userImage: {
-    //   type: "varchar",
-    //   nullable: true,
-    // },
-    // password: {
-    //   type: "varchar",
-    //   nullable: false,
-    // },
-    // role: {
-    //   type: "varchar",
-    //   length: 20,
-    //   default: "user",
-    // },
     createdAt: {
       type: "timestamp",
       createDate: true,
@@ -46,4 +33,13 @@ export const TodoEntity = new EntitySchema({
       updateDate: true,
     },
   },
+
+  relations: {
+    user: {                          
+      type: "many-to-one",
+      target: "User",
+      joinColumn: { name: "userId" },
+      nullable: false,
+    }
+  }
 });

@@ -1,10 +1,10 @@
 import * as userRepository from "../repositories/user.repositories.js"
-import { UserAppDataSource } from '../config/user-data-source.js';
+import { AppDataSource } from '../config/data-source.js';
 import { UserEntity } from '../models/user.entity.js';
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 
-const userRepo = () => UserAppDataSource.getRepository(UserEntity);
+const userRepo = () => AppDataSource.getRepository(UserEntity);
 
 export const getUsers = async (query) => {
   const filters = {}

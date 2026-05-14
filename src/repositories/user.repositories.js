@@ -1,4 +1,4 @@
-import { UserAppDataSource } from '../config/user-data-source.js';
+import { AppDataSource } from '../config/data-source.js';
 import { UserEntity } from '../models/user.entity.js';
 
 const userRepo = () => UserAppDataSource.getRepository(UserEntity);
