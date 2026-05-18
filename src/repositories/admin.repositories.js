@@ -1,42 +1,74 @@
-import User from "../models/user.model.js"
-import Note from "../models/note.model.js"
-import Todo from "../models/todo.model.js"
+import { AppDataSource } from "../config/data-source.js"
+import { UserEntity } from "../models/user.entity.js"
+import { TodoEntity } from "../models/todo.entity.js"
+
+const userRepo = () => AppDataSource.getRepository(UserEntity)
+const todoRepo = () => AppDataSource.getRepository(TodoEntity)
 
 export const findAllUsers = async () => {
-  return User.find().select("-password")
+  return userRepo().find({
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      age: true,
+      userImage: true,
+      role: true,
+      createdAt: true
+    }
+  });
 }
 
 export const deleteUser = async (userId) => {
-  return User.findByIdAndDelete(userId)
+  const user = await userRepo().findOne({ where: { id: Number(userId) } });
+  if (!user) return null;
+  await userRepo().delete(Number(userId));
+  return user;
 }
 
 
-export const findAllNotes = async () => {
-  return Note.find().populate("userId", "email username")
-}
+// export const findAllNotes = async () => {
+//   return Note.find().populate("userId", "email username")
+// }
 
-export const deleteNote = async (noteId) => {
-  return Note.findByIdAndDelete(noteId)
-}
+// export const deleteNote = async (noteId) => {
+//   return Note.findByIdAndDelete(noteId)
+// }
 
 
 export const findAllTodos = async () => {
-  return Todo.find().populate("userId", "email username")
+  return todoRepo().find({
+    relations: ["user"],
+    select: {
+      id: true,
+      title: true,
+      isCompleted: true,
+      createdAt: true,
+      user: {
+        id: true,
+        email: true,
+        name: true
+      }
+    }
+  });
 }
 
 export const deleteTodo = async (todoId) => {
-  return Todo.findByIdAndDelete(todoId)
+  const todo = await todoRepo().findOne({ where: { id: Number(todoId) } });
+  if (!todo) return null;
+  await todoRepo().delete(Number(todoId))
+  return todo
 }
 
 export const createTodo = async (userId, todoData) => {
-  const todo = new Todo({ ...todoData, userId })
-  return todo.save()
+  const user = await userRepo().findOne({ where: {id: Number(userId)} });
+  if (!user) return null;
+
+  const todo = todoRepo().create({ ...todoData, user });
+  return todoRepo().save(todo)
 }
 
 export const updateTodo = async (todoId, todoData) => {
-  return Todo.findByIdAndUpdate(
-    todoId,
-    todoData,
-    { new: true }   
-  )
+  await todoRepo().update(Number(todoId), todoData);
+  return todoRepo().findOne({ where: { id: Number(todoId) } })
 }
