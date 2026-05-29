@@ -43,6 +43,7 @@ import userRotes from "./routes/user.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 import { AppDataSource } from "./config/data-source.js";
 
+import { startBot } from "./bot/bot.js";
 dotenv.config();
 
 const app = express();
@@ -69,5 +70,7 @@ AppDataSource.initialize()
     console.error("DB ulanishda xato ❌", err);
     process.exit(1); 
   });
+
+startBot()
 
 const PORT = process.env.PORT || 3000;
