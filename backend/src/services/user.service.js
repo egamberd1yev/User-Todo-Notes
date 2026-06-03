@@ -81,13 +81,16 @@ export const login = async ({ email, password }) => {
   const isMatch = await bcrypt.compare(password, user.password)
   if (!isMatch) throw new Error("Invalid credentials")
 
-  const accesToken = generateAccessToken(user)
-  const refreshToken = generateRefreshToken(user)
-
-  await userRepo().update(user.id, { refreshToken })
-
-  const { password: _, ...userWithoutPassword } = user
-  return { user: userWithoutPassword, accesToken, refreshToken }
+  try {
+    const accessToken = generateAccessToken(user)   // ← ikki "s"
+    const refreshToken = generateRefreshToken(user)
+    await userRepo().update(user.id, { refreshToken })
+    const { password: _, ...userWithoutPassword } = user
+    return { user: userWithoutPassword, accessToken, refreshToken }
+  } catch(err) {
+    console.error("TOKEN XATOSI:", err.message)  // ← terminalda ko'rinadi
+    throw err
+  }
 }
 
 export const refreshAccessToken = async (refreshToken) => {

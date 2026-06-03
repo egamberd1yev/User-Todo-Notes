@@ -38,15 +38,22 @@
 
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors"
 import todoRoutes from "./routes/todo.routes.js";
 import userRotes from "./routes/user.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 import { AppDataSource } from "./config/data-source.js";
 
-import { startBot } from "./bot/bot.js";
+// import { startBot } from "./bot/bot.js";
 dotenv.config();
 
 const app = express();
+
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}))
+
 app.use(express.json());
 app.use("/todos", todoRoutes);
 app.use("/user", userRotes);
@@ -71,6 +78,6 @@ AppDataSource.initialize()
     process.exit(1); 
   });
 
-startBot()
+// startBot()
 
 const PORT = process.env.PORT || 3000;

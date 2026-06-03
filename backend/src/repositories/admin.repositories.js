@@ -1,6 +1,7 @@
 import { AppDataSource } from "../config/data-source.js"
 import { UserEntity } from "../models/user.entity.js"
 import { TodoEntity } from "../models/todo.entity.js"
+import { deleteTodosByUserId } from './todo.repositories.js';
 
 const userRepo = () => AppDataSource.getRepository(UserEntity)
 const todoRepo = () => AppDataSource.getRepository(TodoEntity)
@@ -22,9 +23,17 @@ export const findAllUsers = async () => {
 export const deleteUser = async (userId) => {
   const user = await userRepo().findOne({ where: { id: Number(userId) } });
   if (!user) return null;
+
+  // 1: Avval todolarni o'chir
+  await deleteTodosByUserId(userId);
+
+  // 2: Keyin userni o'chir
   await userRepo().delete(Number(userId));
+
   return user;
-}
+};
+
+
 
 
 // export const findAllNotes = async () => {

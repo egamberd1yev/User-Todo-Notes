@@ -38,14 +38,17 @@ export const createTodo = async (userId, data) => {
 };
 
 export const updateTodo = async (id, data) => {
-	const todo = await todoRepository.findTodoById(id);
-	if (!todo) {
-		const error = new Error("Todo not found");
-		error.statusCode = 404;
-		throw error;
-	}
-	const { title = todo.title, description = todo.description, is_completed = todo.is_completed } = data;
-	return todoRepository.updateTodoById(id, { title, description, is_completed });
+  const todo = await todoRepository.findTodoById(id);
+  if (!todo) {
+    const error = new Error("Todo not found");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  // "description" → "desc", "is_completed" → "isCompleted"
+  const { title = todo.title, desc = todo.desc, isCompleted = todo.isCompleted } = data;
+  
+  return todoRepository.updateTodoById(id, { title, desc, isCompleted });
 };
 
 export const deleteTodo = async (id) => {

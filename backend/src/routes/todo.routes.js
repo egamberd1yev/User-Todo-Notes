@@ -6,16 +6,14 @@ import {
   updateTodo,
   deleteTodo
 } from "../controllers/todo.controller.js"
-import { validate } from "../middlewares/validate.middleware.js";
-import { createTodoSchema } from "../validators/todo.validator.js";
 import { protect } from "../middlewares/auth.middleware.js"
 
 const router = Router()
 
 router.get("/", protect, getTodos)
-router.get("/todos/:id", getTodo)
+router.get("/:id", protect, getTodo)
 router.post("/", protect, createTodo)
-router.put("/update/:id", updateTodo)
-router.delete("/delete/:id", deleteTodo)
+router.put("/:id", protect, updateTodo)
+router.delete("/:id", protect, deleteTodo)
 
 export default router
