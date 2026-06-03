@@ -52,7 +52,7 @@ const handleLoginSuccess = (userData, token) => {
 
   // Tizimga kirgandan keyingi holat (Admin yoki User)
   return (
-    <div className="min-h-screen bg-slate-50 pb-12">
+   <div className="min-h-screen bg-gray-900">
       <Navbar user={user} onLogout={handleLogout} />
       
       {user.role === 'admin' ? (
