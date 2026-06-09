@@ -48,7 +48,6 @@ dotenv.config();
 
 const app = express();
 
-// ← PORT eng yuqorida bo'lishi kerak
 const PORT = process.env.PORT || 3000;
 
 app.use(cors({
