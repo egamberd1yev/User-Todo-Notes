@@ -38,21 +38,23 @@
 
 import express from "express";
 import dotenv from "dotenv";
-import cors from "cors"
+import cors from "cors";
 import todoRoutes from "./routes/todo.routes.js";
 import userRotes from "./routes/user.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
 import { AppDataSource } from "./config/data-source.js";
 
-// import { startBot } from "./bot/bot.js";
 dotenv.config();
 
 const app = express();
 
+// ← PORT eng yuqorida bo'lishi kerak
+const PORT = process.env.PORT || 3000;
+
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: '*', // ← hozircha barcha originlarga ruxsat
   credentials: true
-}))
+}));
 
 app.use(express.json());
 app.use("/todos", todoRoutes);
@@ -75,9 +77,5 @@ AppDataSource.initialize()
   })
   .catch((err) => {
     console.error("DB ulanishda xato ❌", err);
-    process.exit(1); 
+    process.exit(1);
   });
-
-// startBot()
-
-const PORT = process.env.PORT || 3000;
