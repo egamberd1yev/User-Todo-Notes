@@ -51,7 +51,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors({
-  origin: '*',
+  origin: 'https://user-todo-notes.vercel.app',
   credentials: true
 }));
 
