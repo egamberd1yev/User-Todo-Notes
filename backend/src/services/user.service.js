@@ -82,7 +82,7 @@ export const login = async ({ email, password }) => {
   if (!isMatch) throw new Error("Invalid credentials")
 
   try {
-    const accessToken = generateAccessToken(user)   // ← ikki "s"
+    const accessToken = generateAccessToken(user)
     const refreshToken = generateRefreshToken(user)
     await userRepo().update(user.id, { refreshToken })
     const { password: _, ...userWithoutPassword } = user
