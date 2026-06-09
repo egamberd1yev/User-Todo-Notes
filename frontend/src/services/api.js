@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:5000'; // Oxirida slesh YO'Q!
+const BASE_URL = 'http://localhost:5000'; 
 
 const getHeaders = () => {
   const token = localStorage.getItem('token');
@@ -7,10 +7,9 @@ const getHeaders = () => {
   };
 
   if (token) {
-    // Ba'zi backendlarda Bearer so'zi bilan, ba'zilarida esa shunchaki token o'zi ketishi kerak.
-    // Xatolikni yo'qotish uchun ikkala holatni ham sarlavhaga qo'shib yuboramiz:
+
     headers['Authorization'] = `Bearer ${token}`;
-    headers['token'] = token; // Zaxira variant (agarda backend shuni kutayotgan bo'lsa)
+    headers['token'] = token;
   }
 
   return headers;
