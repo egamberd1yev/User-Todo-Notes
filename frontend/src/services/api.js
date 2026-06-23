@@ -26,14 +26,14 @@ export const api = {
     return res.json();
   },
 
-  register: async (userData) => {
-    const res = await fetch(`${BASE_URL}/user/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(userData)
-    });
-    return res.json();
-  },
+register: async (userData) => {
+  const res = await fetch(`${BASE_URL}/user/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(userData)
+  });
+  return res.json();
+},
 
   getTodos: async () => {
     const res = await fetch(`${BASE_URL}/todos`, { headers: getHeaders() });
