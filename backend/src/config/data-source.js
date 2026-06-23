@@ -13,7 +13,7 @@ export const AppDataSource = new DataSource(
         type: "postgres",
         url: process.env.DATABASE_URL,
         ssl: { rejectUnauthorized: false },
-        synchronize: true, // Production-da buni false qilish tavsiya etiladi
+        synchronize: true,
         logging: false,
         entities: [TodoEntity, UserEntity],
       }
