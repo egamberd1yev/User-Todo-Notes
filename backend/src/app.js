@@ -51,10 +51,13 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors({
-  origin: [
-    'https://user-todo-notes.vercel.app',
-    'https://user-todo-notes-git-telegram-bot-jorabeks-projects-1b5e512b.vercel.app'
-  ],
+  origin: function(origin, callback) {
+    if (!origin || origin.endsWith('.vercel.app')) {
+      callback(null, true)
+    } else {
+      callback(new Error('CORS: ruxsat yo\'q'))
+    }
+  },
   credentials: true
 }));
 
