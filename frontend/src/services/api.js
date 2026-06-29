@@ -1,4 +1,4 @@
-const BASE_URL = 'https://user-todo-notes.onrender.com';
+const BASE_URL = 'https://users-todo-app.up.railway.app/';
 
 const getHeaders = () => {
   const token = localStorage.getItem('token');
