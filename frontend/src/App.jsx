@@ -8,14 +8,19 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+useEffect(() => {
+  try {
     const savedUser = localStorage.getItem('user');
     const token = localStorage.getItem('token');
-    if (savedUser && token) {
+    if (savedUser && savedUser !== 'undefined' && token) {
       setUser(JSON.parse(savedUser));
     }
-    setLoading(false);
-  }, []);
+  } catch (e) {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+  }
+  setLoading(false);
+}, []);
 
   const handleLoginSuccess = (userData, token) => {
     localStorage.setItem('token', token);
