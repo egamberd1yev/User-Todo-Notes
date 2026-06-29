@@ -67,32 +67,32 @@ export const register = async (data) => {
   const refreshToken = generateRefreshToken(user)
 
   const { password: _, ...userWithoutPassword } = user
-  return { user: userWithoutPassword, accessToken: accesToken, refreshToken }
+  return { user: userWithoutPassword, accesToken, refreshToken }
 }
 
 export const login = async ({ email, password }) => {
   try {
-    console.log("LOGIN BOSHLANDI:", email) // ← qo'shing
+    console.log("LOGIN BOSHLANDI:", email)
     
     const user = await userRepo().findOne({
       where: { email: email.toLowerCase() },
       select: { id: true, email: true, password: true, role: true, name: true }
     })
 
-    console.log("USER TOPILDI:", user ? "ha" : "yo'q") // ← qo'shing
+    console.log("USER TOPILDI:", user ? "ha" : "yo'q") 
 
     if (!user) throw new Error("Invalid credentials")
 
     const isMatch = await bcrypt.compare(password, user.password)
     
-    console.log("PAROL MOS:", isMatch) // ← qo'shing
+    console.log("PAROL MOS:", isMatch) 
     
     if (!isMatch) throw new Error("Invalid credentials")
 
     const accessToken = generateAccessToken(user)
     const refreshToken = generateRefreshToken(user)
     
-    console.log("TOKENLAR YARATILDI") // ← qo'shing
+    console.log("TOKENLAR YARATILDI") 
     
     await userRepo().update(user.id, { refreshToken })
     const { password: _, ...userWithoutPassword } = user
