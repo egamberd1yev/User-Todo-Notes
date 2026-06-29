@@ -8,7 +8,6 @@ export default function AuthPage({ onLoginSuccess, onRegisterSuccess }) {
     <div className="min-h-screen bg-gray-900 flex items-center justify-center px-4">
       <div className="w-full max-w-md">
 
-        {/* Logo */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 mb-2">
             <span className="text-3xl">⚡</span>
@@ -17,7 +16,6 @@ export default function AuthPage({ onLoginSuccess, onRegisterSuccess }) {
           <p className="text-gray-500 text-sm font-mono">// vazifalarni boshqarish tizimi</p>
         </div>
 
-        {/* Card */}
         <div className="bg-gray-800 border border-gray-700 rounded-2xl p-8">
 
           {/* Tabs */}
@@ -44,7 +42,6 @@ export default function AuthPage({ onLoginSuccess, onRegisterSuccess }) {
             </button>
           </div>
 
-          {/* Forms */}
           {tab === 'login' ? (
             <LoginForm onLoginSuccess={onLoginSuccess} switchToRegister={() => setTab('register')} />
           ) : (

@@ -32,6 +32,10 @@ register: async (userData) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(userData)
   });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ message: "Server xatosi" }));
+    throw new Error(err.message || "Ro'yxatdan o'tishda xatolik");
+  }
   return res.json();
 },
 
