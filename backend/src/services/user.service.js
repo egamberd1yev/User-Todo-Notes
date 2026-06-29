@@ -71,24 +71,34 @@ export const register = async (data) => {
 }
 
 export const login = async ({ email, password }) => {
-  const user = await userRepo().findOne({
-    where: { email: email.toLowerCase() },
-    select: { id: true, email: true, password: true, role: true, name: true }
-  })
-
-  if (!user) throw new Error("Invalid credentials")
-
-  const isMatch = await bcrypt.compare(password, user.password)
-  if (!isMatch) throw new Error("Invalid credentials")
-
   try {
+    console.log("LOGIN BOSHLANDI:", email) // ← qo'shing
+    
+    const user = await userRepo().findOne({
+      where: { email: email.toLowerCase() },
+      select: { id: true, email: true, password: true, role: true, name: true }
+    })
+
+    console.log("USER TOPILDI:", user ? "ha" : "yo'q") // ← qo'shing
+
+    if (!user) throw new Error("Invalid credentials")
+
+    const isMatch = await bcrypt.compare(password, user.password)
+    
+    console.log("PAROL MOS:", isMatch) // ← qo'shing
+    
+    if (!isMatch) throw new Error("Invalid credentials")
+
     const accessToken = generateAccessToken(user)
     const refreshToken = generateRefreshToken(user)
+    
+    console.log("TOKENLAR YARATILDI") // ← qo'shing
+    
     await userRepo().update(user.id, { refreshToken })
     const { password: _, ...userWithoutPassword } = user
     return { user: userWithoutPassword, accessToken, refreshToken }
   } catch(err) {
-    console.error("TOKEN XATOSI:", err.message)  // ← terminalda ko'rinadi
+    console.error("LOGIN XATOSI:", err.message) // ← bu allaqachon bor
     throw err
   }
 }
