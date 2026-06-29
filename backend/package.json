@@ -3,9 +3,14 @@
   "version": "1.0.0",
   "main": "app.js",
   "type": "module",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/app.js"
+    "dev": "nodemon src/app.js",
+    "start": "node src/app.js"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +18,7 @@
   "description": "",
   "dependencies": {
     "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "joi": "^18.1.2",
@@ -22,8 +28,8 @@
     "nodemon": "^3.1.14",
     "pg": "^8.20.0",
     "reflect-metadata": "^0.2.2",
+    "telegraf": "^4.16.3",
     "typeorm": "^0.3.28",
-    "uuid": "^13.0.0",
-    "cors": "^2.8.6"
+    "uuid": "^13.0.0"
   }
 }
