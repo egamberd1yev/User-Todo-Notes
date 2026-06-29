@@ -66,7 +66,7 @@ function LoginForm({ onLoginSuccess }) {
     setLoading(true);
     try {
       const data = await api.login({ email, password });
-      const token = data.accessToken;
+      const token = data.accesToken;
       const user = data.user;
       if (!token) throw new Error("Backenddan token kelmadi!");
       localStorage.setItem('token', token);

@@ -67,7 +67,7 @@ export const register = async (data) => {
   const refreshToken = generateRefreshToken(user)
 
   const { password: _, ...userWithoutPassword } = user
-  return { user: userWithoutPassword, accesToken, refreshToken }
+  return { user: userWithoutPassword, accessToken: accesToken, refreshToken }
 }
 
 export const login = async ({ email, password }) => {
