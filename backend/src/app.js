@@ -51,9 +51,13 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors({
-  origin: 'https://user-todo-notes.vercel.app/',
+  origin: [
+    'https://user-todo-notes.vercel.app',
+    'https://user-todo-notes-git-telegram-bot-jorabeks-projects-1b5e512b.vercel.app'
+  ],
   credentials: true
 }));
+
 
 app.use(express.json());
 app.use("/todos", todoRoutes);
